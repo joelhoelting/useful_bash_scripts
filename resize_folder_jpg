@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for file in *.jpg; do
+  if [ -f "$file" ]; then
+    resize_width_jpg $file;
+  fi
+done

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "You provided $# arguments"
+
+if [ "$#" -eq 0 ]; then
+  echo "Required First Argument: Filename, Optional Second Argument: Width"
+  return
+fi
+
+FILE_NAME=$1
+# SIZES="1200 1500 2000 2500 3000"
+SIZES="400 600 800 1100 1500 2000 2500"
+BASE="${FILE_NAME%.*}"
+
+if [ "$#" -ne 2 ]; then
+  echo "Resizing Multiple Sized JPG's"
+  for SIZE in $SIZES
+  do
+    NEW_FILE="${BASE}_${SIZE}.jpg"
+    convert $1 -sampling-factor 4:2:0 -strip -resize $SIZE -quality 70 $NEW_FILE
+    echo "Filename: $NEW_FILE, Width: $SIZE pixels"
+  done
+else
+  echo “Resizing Single Sized JPG”
+  NEW_FILE="${BASE}_$2.jpg"
+  convert $1 -sampling-factor 4:2:0 -strip -resize $2 -quality 70 $NEW_FILE
+  echo "Filename: $NEW_FILE, Width: $2"
+fi
